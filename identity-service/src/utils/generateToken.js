@@ -7,14 +7,14 @@ const generateTokens = async (user) => {
     userId: user._id,
     username: user.username
   }, process.env.JWT_SECRET, {
-    expiresIn: '1h',
+    expiresIn: '60m',
   });
   const refreshToken = crypto.randomBytes(40).toString('hex');
   const expiresAt = new Date();
   expiresAt.setDate(expiresAt.getDate() + 7); // Refresh token valid for 30 days
   await RefreshToken.create({
     token: refreshToken,
-    userId: user._id,
+    user: user._id,
     expiresAt: expiresAt
   })
   return { accessToken, refreshToken };
